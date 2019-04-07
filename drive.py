@@ -36,8 +36,8 @@ sio = socketio.Server()
 app = Flask(__name__) #'__main__'
 speed_limit = 20
 
-def img_preprocess(img):
-    """ Setting our image as we did in the machine model training mode """
+def process_image(img):
+    """ Setting our image as we did in the machine model training mode. """
     img = img[60:135,:,:]
     img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
     img = cv2.GaussianBlur(img,  (3, 3), 0)
@@ -45,21 +45,26 @@ def img_preprocess(img):
     img = img/255
     return img
 
+def get_image(data):
+    """ Taking the image from the scene and getting it ready for processing. """
+    image = Image.open(BytesIO(base64.b64decode(data['image'])))
+    image = np.asarray(image)
+    image = process_image(image)
+    image = np.array([image])
+    return image
 
 @sio.on('telemetry')
 def telemetry(sid, data):
     """ As soon as a connection is made then this function will be kicked off """
     speed = float(data['speed'])
-    image = Image.open(BytesIO(base64.b64decode(data['image'])))
-    image = np.asarray(image)
-    image = img_preprocess(image)
-    image = np.array([image])
+    image = get_image(data)
     steering_angle = float(model.predict(image))
     throttle = 1.0 - speed/speed_limit
-    print('{} {} {}'.format(steering_angle, throttle, speed))
+    print('Angle: {} | Throttle: {} | Speed: {}'.format(
+        round(steering_angle, 4), round(throttle, 4), round(speed, 4)
+        ))
+
     send_control(steering_angle, throttle)
-
-
 
 @sio.on('connect')
 def connect(sid, environ):
@@ -73,7 +78,6 @@ def send_control(steering_angle, throttle):
         'steering_angle': steering_angle.__str__(),
         'throttle': throttle.__str__()
     })
-
 
 if __name__ == '__main__':
     model = load_model('model.h5')
