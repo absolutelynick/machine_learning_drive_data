@@ -32,8 +32,7 @@ from PIL import Image
 import cv2
 
 sio = socketio.Server()
-
-app = Flask(__name__) #'__main__'
+app = Flask(__name__)
 speed_limit = 20
 
 def process_image(img):
@@ -56,15 +55,19 @@ def get_image(data):
 @sio.on('telemetry')
 def telemetry(sid, data):
     """ As soon as a connection is made then this function will be kicked off """
-    speed = float(data['speed'])
-    image = get_image(data)
-    steering_angle = float(model.predict(image))
-    throttle = 1.0 - speed/speed_limit
-    print('Angle: {} | Throttle: {} | Speed: {}'.format(
-        round(steering_angle, 4), round(throttle, 4), round(speed, 4)
-        ))
+    speed = round(float(data['speed']), 2)
 
-    send_control(steering_angle, throttle)
+    image = get_image(data)
+
+    angle = round(float(model.predict(image)), 2)
+
+    throttle = round((1.0 - speed/speed_limit), 2)
+
+    direction = "L: " if angle < 0 else "R: " if angle == 0 else "S: "
+
+    print('Angle: %s %s | Throttle: %s | Speed: %s' % (direction, angle, throttle, speed ))
+
+    send_control(angle, throttle)
 
 @sio.on('connect')
 def connect(sid, environ):
