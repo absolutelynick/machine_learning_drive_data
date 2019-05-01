@@ -1,6 +1,5 @@
 #!/usr/bin/env python3.7
 # -*- coding: utf-8 -*-
-
 """
 Author:  Nick Hughes
 Company: Rigstore
@@ -9,15 +8,9 @@ Created: 2019
 
 (C) 2019 >
 
-Drive.py code
+Using Flask & Socket.io to establish bi-directional client-server communication.
 
-Section 14, Lecture 151
-
-In the next video, I introduce Flask & Socket.io to establish bi-directional client-server communication. Ultimately, this will be done to connect our model to the simulation.
-
-That being said, the content in the next two videos is very technical, and not very relevant to deep learning. I would still highly recommend following along the two videos so that you don't get lost.
-
-Otherwise, if you choose to skip the two videos, then that's fine. You'll have to simply copy the code below into an atom project, drag your model into the same project, make the appropriate installations and run the code to establish the connection. Then run your simulation.
+This is done to connect our model to the simulation.
 
 """
 
@@ -68,6 +61,33 @@ def telemetry(sid, data):
     print('Angle: %s %s | Throttle: %s | Speed: %s' % (direction, angle, throttle, speed ))
 
     send_control(angle, throttle)
+
+def get_speed(angle, speed):
+    """ Set a variable speed depending on the angle passed.
+
+        Faster for straighter parts of the road
+
+        Slower for harsher angles
+    """
+
+    if (angle > 0.5) or (angle < -0.5):
+        speed -= speed*0.1
+
+    elif (angle < 0.5) or (angle > -0.5):
+        speed += speed*0.1
+
+    return speed
+
+def user_feedback(data): ## TODO
+    """ Pass the user feedback for the drive and the angles that were given. """
+
+    # Get the image name
+
+    # Get the image angle
+
+    # Save out our image
+
+    pass
 
 @sio.on('connect')
 def connect(sid, environ):
