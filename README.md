@@ -2,10 +2,27 @@
 
 This was a test of concept flowing a Udemy tutorial [Applied Deep Learning - The complete self-driving car course](https://www.udemy.com/applied-deep-learningtm-the-complete-self-driving-car-course). The goal was to gather data driving a car around a track and then using Keras (a wrapper for Tensorflow) teach the car how to drive itself.
 
-<p align="center">
-           <img src="/image_data/autonomousDrivingMode.gif" width="40%" height="40%">
-           <br><b>Basic Autonomus Driving from Behavioural Cloning</b>
-</p>
+<table style="width:100%">
+  <tr>
+    <th>
+        <p align="center">
+                <a href="https://github.com/absolutelynick/machine_learning_drive_data/blob/master/Behavioural_Cloning.ipynb">
+                   <img src="/image_data/autonomousDrivingMode.gif" width="70%"">
+                   <br><b>Basic Autonomus Driving from Behavioural Cloning</b>
+                </a>
+        </p>
+    </th>
+    <th>
+        <p align="center">
+                <a href="https://github.com/absolutelynick/machine_learning_drive_data/blob/master/Traffic_Signs_Recognition.ipynb">
+                   <img src="/image_data/trafficSigns.PNG" width="60%">
+                   <br><b>Traffic Sign Recognition</b>
+                </a>
+        </p>
+    </th>
+  </tr>
+</table>
+
 
 Keras and Tensorflow and can be run on [Googles Collaboratory](https://colab.research.google.com) saving on GPU and computational power locally. Otherwise your local Anaconda shell using Python3 will work just fine.
 
