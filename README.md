@@ -32,6 +32,8 @@ This was the code that was used to make my machine learning model.
 
 [Behavioural_Cloning.ipynb](https://github.com/absolutelynick/machine_learning_drive_data/blob/master/Behavioural_Cloning.ipynb)
 
+[Traffic_Signs_Recognition.ipynb](https://github.com/absolutelynick/machine_learning_drive_data/blob/master/Traffic_Signs_Recognition.ipynb)
+
 ## Research
 
 [Nvidia Developer Blog](https://devblogs.nvidia.com/deep-learning-self-driving-cars/)
